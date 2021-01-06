@@ -1,17 +1,20 @@
 import java.io.IOException;
 
-import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
-public class MaxFilmRatingReducer extends Mapper<LongWritable, Text, Text, DoubleWritable> extends Reducer<Text, DoubleWritable, Text, DoubleWritable> {
+public class MaxFilmRatingReducer extends Mapper<Text, DoubleWritable, Text, DoubleWritable> {
 
 	@Override
 	public void reduce(Text key, Iterable<DoubleWritable> values, Context context) throws IOException, InterruptedException {
-		double maxValue = Integer.MIN_VALUE;
+		double average = 0;
+		int elements = 0;
 		for (DoubleWritable value : values) {
-			maxValue = Math.max(maxValue, value.get());
+			average += value.get();
+			elements+=1;
 	    }
-	    context.write(key, new DoubleWritable(maxValue));
+		average /= elements;
+	    context.write(key, new DoubleWritable(average));
 	}
 }
