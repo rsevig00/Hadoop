@@ -19,7 +19,7 @@ public class NetflixRatings extends Configured implements Tool {
 			return -1;
 		}
 		
-		Job job = new Job(getConf(), "Max temperature");
+		Job job = new Job(getConf(), "Get best film by rating");
 	    job.setJarByClass(getClass());
 
 	    FileInputFormat.addInputPath(job, new Path(args[0]));
